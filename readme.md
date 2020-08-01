@@ -9,10 +9,10 @@
 
 ## Problem
 New [NIST](https://www.nist.gov/)  guidelines provide general rules for protecting the security of user supplied passwords. The goal here is to develop a tool that checks if a password satisfies the following requirements: 
-1. Has an 8 character minimum 
-2. Has a 64 character maximum
-2. Allow only ASCII characters (user note: this includes spaces)
-4. Not be a common password
+* Has an 8 character minimum 
+* Has a 64 character maximum
+* Allow only ASCII characters (user note: this includes spaces)
+* Not be a common password
 
 
 ## Approach
