@@ -1,6 +1,5 @@
 import sys
 import re
-import csv
 import argparse as argp
 
 
@@ -11,7 +10,6 @@ MIN_LENGTH = getattr(
 MAX_LENGTH = getattr(
     settings, "MAX_LENGTH", 64)
 
-#TODO create class for OOP
 class LengthAsciiRequirement(object):
     """For candidate password, checks if length = [8,64]
      and contains only ASCII characters.
@@ -23,17 +21,19 @@ class LengthAsciiRequirement(object):
     def __call__(self, value):
             """returns True if all characters are ASCII, false otherwise.
             Also checks for ascii control characters through printable 
-            function to preclude decoded ASCII control characters
+            function to check for ASCII control characters
             """
-        if value.ascii() and value.isprintable() == False
-            censored_value = re.sub('^[\x00-\x7F]', '*', value) #replaces non-ASCII char with *
-            print(censored_value, '-> Error: Invalid Characters')
-            #if non-ASCII test fails, no need to check further
-            break 
+        if  value.ascii()==False:# and value.isprintable():
+            censored_value = re.sub('[^\x00-\x7F]', '*', value) #replaces non-ASCII char with '*'
+            print(censored_value, ' -> Error: Invalid Characters')
+        
+        #returns True if input > min_length
         elif self.min_length is not None and len(value) < self.min_length:
-            print(value, '-> Error: Too Short. ','Must be more than %s characters') % self.min_length
+            print(value, ' -> Error: Too Short. ','Must be more than %s characters') % self.min_length
+        
+        #returns true if input < max_length    
         elif self.max_length is not None and len(value) > self.max_length:
-            print(value, '-> Error: Too Long. ','Must be less than %s characters') % self.max_length
+            print(value, ' -> Error: Too Long. ','Must be less than %s characters') % self.max_length
 
 class WeakPassword:  
     def __init__(self, s, weak_password_list):
