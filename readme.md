@@ -14,10 +14,10 @@ New [NIST](https://www.nist.gov/)  guidelines provide general rules for protecti
 
 ## Approach
 
-Performance is key for quick validation of passwords and efficiency of resources. To design for this, the order and data structures checking our four validation parameters must be considered and optimized. The bottleneck in this approach will be matching a candidate password to an entry in a large common password list. 
+Performance is key for quick validation of passwords and efficiency of resources. To design for this, the order and data structures checking our four validation parameters must be considered and optimized. The bottleneck in this approach will be matching a candidate password to an entry in a large common password list. This validation will be done last to filter out candidate passwords that fail the other 3 criteria. 
 
 ### String Length
-
+I created a class to 
 ### ASCII Only Characters
 
 ### Common Password List Lookup
@@ -26,3 +26,6 @@ The codebase is designed to intake any newline delimited list, which can be mill
 
 ## How to Run
 The codebase was developed in Python 3.7 and incompatible with earlier versions due to the ASCII validation implementation used here. Future versions may include compatibility runtime fixes, although with slower overall performance. 
+1. Make sure to add Python3.7 to your path. 
+2. From terminal home directory of codebase enter ```run.sh```
+3. To run test cases, from terminal enter ```run_tests.sh```

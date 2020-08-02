@@ -2,29 +2,38 @@ import sys
 import re
 import argparse as argp
 
+#Read in password text files. Newline delimiited
+class ReadInput(object):
 
-# Settings for Password Valid Length
-# Default to [8,64] if not otherwise specified
-MIN_LENGTH = getattr(
-    settings, "MIN_LENGTH", 8)
-MAX_LENGTH = getattr(
-    settings, "MAX_LENGTH", 64)
+    def read_candidate_file(self, input_passwords):
+        password_list = set()
+        with open(input_passwords, 'r') as file:
+            password_list = file.read().splitlines()
+            print(password_list)
+        return password_list
+    
+    def read_common_file(self, common_passwords):
+        common_list = set()
+        with open(common_passwords, 'r') as file:
+            common_list = file.read().splitlines()
+            #print(common_list)
+        return common_list
 
 class LengthAsciiRequirement(object):
     """For candidate password, checks if length = [8,64]
      and contains only ASCII characters.
      """
-    def __init__(self, min_length=None, max_length=None):
+    def __init__(self, min_length=8, max_length=64):
         self.min_length = min_length
         self.max_length = max_length
 
     def __call__(self, value):
-            """returns True if all characters are ASCII, false otherwise.
-            Also checks for ascii control characters through printable 
-            function to check for ASCII control characters
-            """
-        if  value.ascii()==False:# and value.isprintable():
-            censored_value = re.sub('[^\x00-\x7F]', '*', value) #replaces non-ASCII char with '*'
+        """returns True if all characters are ASCII, false otherwise.
+        Also checks for ascii control characters through printable 
+        function to check for ASCII control characters
+        """
+        if  ascii(value) == False: # and value.isprintable():TODO consider whether this is necessary.
+            censored_value = re.sub('[^\x00-\x7F]', '*', value) #replaces non-ASCII char with '*' using regex
             print(censored_value, ' -> Error: Invalid Characters')
         
         #returns True if input > min_length
@@ -36,15 +45,20 @@ class LengthAsciiRequirement(object):
             print(value, ' -> Error: Too Long. ','Must be less than %s characters') % self.max_length
 
 class WeakPassword:  
-    def __init__(self, s, weak_password_list):
-        self.s = s
+    def __init__(self, value, weak_password_list):
+        self.value = value
         self.weak_password_list = weak_password_list
 
-    def password_found(s, weak_password_list): 
-        if s in weak_password_list:
-            print(s, '-> Error: Too Common')
+    def password_found(self, value, weak_password_list): 
+        if value in weak_password_list:
+            print(value, '-> Error: Too Common')
         else: 
             return
 
-
-
+#Read in input files and validate passwords
+if __name__ == '__main__':
+    #input the candidate password newline delimited text file. If none, defaults to STDIN
+    input_passwords = sys.argv[1]
+    common_passwords = sys.argv[2]
+    input = ReadInput().read_candidate_file(input_passwords)
+    input_common = ReadInput().read_common_file(common_passwords)
