@@ -22,9 +22,7 @@ Performance is key for quick validation of passwords and efficiency of resources
 
 ### Common Password List Lookup
 The codebase is designed to intake any newline delimited list, which can be millions of lines. Thus, it is important to run this function once the other 3 parameters have been met to reduce the number of candidate passwords. The code here was developed with 1M line list linked to in project prompt. To design for unsorted common password input, algorithmic complexity is considered. A sorted list would be on the order of O(n log n) to create and lookups O(log n) which isn't optimal. However, set creation is O(n) and lookup is O(1), providing a much improved runtime. Sets also remove possible duplicates which is fine for our use case and removal would reduce the common password list size and improve runtime. 
-```
-NOTE: Since lookup is O(1), filtering the common password list for the first 3 parameters as well as the candidate password list would be more costly then leaving as is.
-```
+\*NOTE: Since lookup is O(1), filtering the common password list for the first 3 parameters as well as the candidate password list would be more costly then leaving as is.\*
 
 ## How to Run
 The codebase was developed in Python 3.7 and incompatible with earlier versions due to the ASCII validation implementation used here. Future versions may include compatibility runtime fixes, although with slower overall performance. 
