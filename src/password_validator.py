@@ -14,5 +14,5 @@ def too_short(s):
 
 # returns True if input no more than 64 characters
 def too_long(s): 
-    return len(s) < 64
+    return len(s) < 65
 
