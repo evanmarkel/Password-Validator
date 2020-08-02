@@ -78,3 +78,11 @@ if __name__ == '__main__':
         #returns true if input < max_length    
         elif value is not None and len(value) > 64:
             print(value, ' -> Error: Too Long. ','Must be less than 64 characters')
+
+    for value in input: 
+       if value in input_common:
+           print(value, '-> Error: Too Common')
+       
+       #TODO runtime and optimize. work
+       
+        #weak = WeakPassword().password_found(value, input_common)
