@@ -47,4 +47,4 @@ The codebase was developed in Python 3.7 and incompatible with earlier versions 
 Several candidate password test sets were utilized and unittesting for edge cases employed to compare code output to expected results. 
 
 ## Further Considerations
-Argparse is a full featured commandline parser than the simpler sys.argv. The data for this challenge didn't necessitate it, but more robust input handling could be accomplished in future versions. Also, caching the common word list could increase performance for repeated usage of large test files. Further modularity could be implemented for future strong password criteria in separated functions. 
+Argparse is a full featured commandline parser than the simpler sys.argv. The data for this challenge didn't necessitate it, but more robust input handling could be accomplished in future versions. Also, caching the common word list could increase performance for repeated usage of large test files. Further modularity could be implemented for future strong password criteria in separated functions. Also error logging for performance metrics and analytics from dataset performance. 
