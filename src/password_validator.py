@@ -31,7 +31,7 @@ class Validate(object):
 
         if value.isascii() is False:
             # Replaces non-ASCII char with '*'
-            censored_value = re.sub('[^\x20-\x7E]', '*', value)
+            censored_value = re.sub('[^\x00-\x7F]', '*', value)
             print(censored_value, ' -> Error: Invalid Characters')
 
         elif self.min_length is not None and len(value) < self.min_length:
@@ -46,7 +46,7 @@ class Validate(object):
 if __name__ == '__main__':
 
     # Benchmark runtime
-    start = time.time()
+    # start = time.time()
 
     # Raise error if input criteria not met
     if (len(sys.argv) > 3):
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             validator(value, pw_common)
 
     elif (len(sys.argv) == 2):
-        # For manual candidate input, STDIN is used
+        # STDIN for manual candidate input
         common_passwords = sys.argv[1]
         pw_common = ReadInput().read_file(common_passwords)
         while True:
@@ -80,4 +80,4 @@ if __name__ == '__main__':
     else:
         raise(Exception('Error: no common password list found'))
 
-    print('runtime was:' + str(time.time() - start), 'sec')
+    # print('runtime was:' + str(time.time() - start), 'sec')
