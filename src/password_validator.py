@@ -35,10 +35,10 @@ class Validate(object):
             print(censored_value, ' -> Error: Invalid Characters')
 
         elif len(value) < self.min_length:
-            print(value, ' -> Error: Too Short.')
+            print(value, ' -> Error: Too Short')
 
         elif len(value) > self.max_length:
-            print(value, ' -> Error: Too Long.')
+            print(value, ' -> Error: Too Long')
 
         elif value in common_password_list:
             print(value, '-> Error: Too Common')
@@ -48,12 +48,12 @@ if __name__ == '__main__':
     # Benchmark runtime
     start = time.time()
 
-    # Raise error if input criteria not met
+    # Raise error if too many inputs
     if (len(sys.argv) > 3):
 	    raise(Exception('Error: too many input files in run.sh'))
 
     elif (len(sys.argv) == 3):
-        # Input the candidate password newline delimited text file if exists
+        # Input the candidate password newline delimited text file exists
         input_passwords = sys.argv[1]
         common_passwords = sys.argv[2]
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             validator(value, pw_common)
 
     elif (len(sys.argv) == 2):
-        # STDIN for manual candidate input
+        # STDIN for manual candidate input. Input() avoids '/n' in object
         common_passwords = sys.argv[1]
         pw_common = ReadInput().read_file(common_passwords)
         while True:
