@@ -4,7 +4,6 @@ import sys
 import re
 import time
 
-
 # Read in password text files
 class ReadInput(object):
 
