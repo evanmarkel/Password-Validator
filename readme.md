@@ -38,15 +38,26 @@ The codebase is designed to intake any newline delimited list, which can be mill
 ## How to Run 
 
 The codebase was developed in Python 3.7 and incompatible with earlier versions due to the ASCII validation implementation used here. Future versions may include compatibility runtime fixes, although with slower overall performance. 
-1. Make sure to use Python 3.7 or newer aliased as Python3 or change run.sh accordingly. 
-2. Clone repository to your local folder
-3. First time, execute run permissions from terminal in home directory of codebase: ```chmod +x run.sh run_manual_tests.sh run_tests```
+1. Make sure to use Python 3.7 or newer when running this code. You can alias 3.7 as Python3 with ```alias python3=python3.7``` to run as is or change ```run.sh``` accordingly. 
+2. Clone or download repository to your local machine. 
+3. For the first time, execute run permissions from terminal in home directory of codebase: ```chmod +x run.sh run_manual_tests.sh run_tests```
 4. To run the code then enter ```./run.sh``` in your local environment 
-5. Alternately, to manually input candidate passwords from input or ```cat <path to file>``` as per project prompt, enter ```./run_manual_input.sh``` 
-
+5. Alternately, to manually enter candidate passwords from bash use ```cat <path to file> | ./run_manual_input.sh``` as per project prompt.
 ## Testing
 
-Several candidate password test sets were utilized and unittesting for edge cases employed to compare code output to expected results. 
+Several candidate password unit tests were employed for edge cases to compare code output to expected results.
+ ```
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
 
+OK
+bash-3.2$ python3 -m unittest -v
+test_foreign_characters (test_validation.TestNotAscii) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+```
 ## Further Considerations
 Argparse is a full featured commandline parser than the simpler sys.argv. The data for this challenge didn't necessitate it, but more robust input handling could be accomplished in future versions. Also, caching the common word list could increase performance for repeated usage of large test files. Further modularity could be implemented for future strong password criteria in separated functions. Also error logging for performance metrics and analytics from dataset performance. 

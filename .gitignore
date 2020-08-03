@@ -3,6 +3,7 @@ notes.txt
 
 # workspace
 *.code*
+*.pyc*
 
 # old versions
 old_ascii_length_functions.py

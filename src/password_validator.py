@@ -34,10 +34,10 @@ class Validate(object):
             censored_value = re.sub('[^\x00-\x7F]', '*', value)
             print(censored_value, ' -> Error: Invalid Characters')
 
-        elif self.min_length is not None and len(value) < self.min_length:
+        elif len(value) < self.min_length:
             print(value, ' -> Error: Too Short.')
 
-        elif self.max_length is not None and len(value) > self.max_length:
+        elif len(value) > self.max_length:
             print(value, ' -> Error: Too Long.')
 
         elif value in common_password_list:
