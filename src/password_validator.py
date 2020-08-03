@@ -1,6 +1,11 @@
 import sys
 import re
-import argparse as argp
+#import argparse as argp
+import time
+
+#class Settings:
+ #   MIN_LENGTH = getattr( "MIN_LENGTH", 8)
+  #  MAX_LENGTH = getattr( "MAX_LENGTH", 64)
 
 #Read in password text files. Newline delimiited
 class ReadInput(object):
@@ -24,7 +29,7 @@ class LengthAsciiRequirement(object):
      and contains only ASCII characters.
      """
      
-    def __init__(self, value, min_length=8, max_length=64):
+    def __init__(self, value, min_length, max_length):
         self.min_length = min_length
         self.max_length = max_length
         self.value = value
@@ -62,8 +67,12 @@ if __name__ == '__main__':
     #input the candidate password newline delimited text file. If none, defaults to STDIN
     input_passwords = sys.argv[1]
     common_passwords = sys.argv[2]
+
+    #benchmark runtime
+    start = time.time()
+
+    #read in input files and create password sets
     input = ReadInput().read_candidate_file(input_passwords)
-   
     input_common = ReadInput().read_common_file(common_passwords)
   
     #Run validation #TODO need to iterate over lengthascii class 
@@ -82,7 +91,14 @@ if __name__ == '__main__':
     for value in input: 
        if value in input_common:
            print(value, '-> Error: Too Common')
-       
+
+    #benchmark runtime
+    end = time.time()
+    print('Time to execute candidate password list validation is: ', end - start,' sec')
+
+
+
+
        #TODO runtime and optimize. work
        
         #weak = WeakPassword().password_found(value, input_common)
