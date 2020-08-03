@@ -15,6 +15,8 @@ New [NIST](https://www.nist.gov/)  guidelines provide general rules for protecti
 * Allows only ASCII characters (user note: this includes spaces)
 * Not be a common password 
 
+This program evaluates the strength of candidate passwords against these criteria from a newline delimited text file or command line input. 
+
 ## Approach
 
 Performance is key for quick validation of passwords and efficiency of resources. To design for this, the order and data structures checking our four validation parameters must be considered and optimized. The bottleneck in this approach will be matching a candidate password to an entry in a large common password list. This validation will be done last to filter out candidate passwords that fail the other 3 criteria. As speed is a motivation, a candidate password will be removed from further validation if it fails one of the criteria. 
