@@ -27,7 +27,8 @@ The codebase is designed to intake any newline delimited list, which can be mill
 
 ## How to Run 
 The codebase was developed in Python 3.7 and incompatible with earlier versions due to the ASCII validation implementation used here. Future versions may include compatibility runtime fixes, although with slower overall performance. 
-1. Make sure to use Python 3.7 or newer aliased as Python3. 
+1. Make sure to use Python 3.7 or newer aliased as Python3 or change run.sh accordingly. 
 2. Clone repository to your local folder
-3. First time, execute permissions from terminal in home directory of codebase in bash: ```chmod +x run.sh run_tests```
-4. To run the main code then enter ```./run.sh```
+3. First time, execute run permissions from terminal in home directory of codebase: ```chmod +x run.sh run_manual_tests.sh run_tests```
+4. To run the code then enter ```./run.sh``` in your local environment 
+5. Alternately, to manually input candidate passwords from input or ```cat <path to file>``` as per project prompt, enter ```./run_manual_input.sh``` 
