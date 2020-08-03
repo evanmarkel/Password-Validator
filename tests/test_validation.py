@@ -1,7 +1,5 @@
 import sys
 import unittest
-
-sys.path.append(".")
 from password_validator import Validate
 
 
@@ -11,13 +9,13 @@ class TestNotAscii(unittest.TestCase):
     """
     def test_foreign_characters(self):
         common_password = []
-        values = 'dfdflpk.-øåå','6dfjksdklfjaks;^^&&&',',ัะเ่า'
+        values = 'dfdflpk.-øåå', '6dfjksdklfjaks;^^&&&', ',ัะเ่า'
 
         val = Validate(values, common_password, 8, 64)
 
         self.assertEqual(val('dfdflpk.-øåå', common_password), 'dfdflpk.-***')
         self.assertEqual(val('6dfjksdklfjæaks;^^&&&', common_password), '6dfjksdklfj*aks;^^&&&')
-        self.assertEqual(val('ะเ่า', common_password),'****')
+        self.assertEqual(val('ะเ่า', common_password), '****')
 
 
 class TestLengthOutOfRange(unittest.TestCase):
@@ -42,10 +40,11 @@ class TestLengthOutOfRange(unittest.TestCase):
 
         self.assertEqual(val('12345678910111213141516171819202122232425262728293031323334353637383940', common_password),\
             '12345678910111213141516171819202122232425262728293031323334353637383940  -> Error: Too Long')
-        self.assertEqual(val('..............................................................................................................'\
+        self.assertEqual(val('..............................................................................................................'
             , common_password), '..............................................................................................................-> Error: Too Short')
         self.assertEqual(val('seven77', common_password),'seven77 -> Error: Too Short.')
 
 
 if __name__ == '__main__':
     unittest.main()
+    
