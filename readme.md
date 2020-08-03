@@ -29,7 +29,7 @@ The main function calls the file input class to create sets of the two password 
 Python 3.7 provides a boolean function that tests if all characters in a string are are ASCII. This includes empty strings and ASCII control characters. The latter are allowed as per instructions. The source code replaces all non-ASCII characters with an asterisk with regular expressions and prints the error. 
 
 ### String Length
-Pretty straightforward. Class attributes can be changed if guidelines change in future. 
+Check length of candidate password. Default to range ```[8,64]```. Class attributes can be easily changed if guidelines change. 
 
 ### Common Password List Lookup
 The codebase is designed to intake any newline delimited list, which can be millions of lines. Thus, it is important to run this function once the other 3 parameters have been met to reduce the number of candidate passwords. The code here was developed with 1M line list linked to in project prompt. To design for unsorted common password input, algorithmic complexity is considered. A sorted list would be on the order of O(n log n) to create and lookups O(log n) which isn't optimal. However, set creation is O(n) and lookup is O(1), providing a much improved runtime when determining if an object is present. Sets remove duplicates which is fine for our use case and removal would reduce the common password list size improving runtime. 
