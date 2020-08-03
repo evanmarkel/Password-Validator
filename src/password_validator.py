@@ -3,12 +3,8 @@ import re
 #import argparse as argp
 import time
 
-#class Settings:
- #   MIN_LENGTH = getattr( "MIN_LENGTH", 8)
-  #  MAX_LENGTH = getattr( "MAX_LENGTH", 64)
-
-#Read in password text files. Newline delimiited
-class ReadInput(object):
+#Read in password text files. Newline delimited
+class ReadInput(object): #TODO have another class readInputSTDIN
 
     def read_candidate_file(self, input_passwords):
         password_list = set()
@@ -21,84 +17,77 @@ class ReadInput(object):
         common_list = set()
         with open(common_passwords, 'r') as file:
             common_list = file.read().splitlines()
-            #print(common_list)
         return common_list
 
-class LengthAsciiRequirement(object):
-    """For candidate password, checks if length = [8,64]
-     and contains only ASCII characters.
+class Validate(object):
+    """For candidate password, checks if length = [8,64],
+     contains only ASCII characters,
+     and is not found in common password list.
      """
      
-    def __init__(self, value, min_length, max_length):
+    def __init__(self, value, common_password_list, min_length, max_length):
         self.min_length = min_length
         self.max_length = max_length
         self.value = value
+        self.common_password_list = common_password_list
 
-    def __call__(self, value): #changed from value to pw_list
+    def __call__(self, value, common_password_list): 
         """returns True if all characters are ASCII, false otherwise.
         Also checks for ascii control characters through printable 
         function to check for ASCII control characters
         """
-        print('inlength')
-        if  value.isascii() == False: # and value.isprintable():TODO consider whether this is necessary.
-            censored_value = re.sub('[^\x00-\x7F]', '*', value) #replaces non-ASCII char with '*' using regex
+        
+        if  value.isascii() == False: 
+            censored_value = re.sub('[^\x20-\x7E]', '*', value) #replaces non-ASCII char with '*' using regex
             print(censored_value, ' -> Error: Invalid Characters')
+
         #returns True if input > min_length
         elif self.min_length is not None and len(value) < self.min_length:
-            print(value, ' -> Error: Too Short. ','Must be more than %s characters') % self.min_length
+            print(value, ' -> Error: Too Short. ')
             
         #returns true if input < max_length    
         elif self.max_length is not None and len(value) > self.max_length:
-            print(value, ' -> Error: Too Long. ','Must be less than %s characters') % self.max_length
+            print(value, ' -> Error: Too Long. ')
 
-class WeakPassword():  
-    def __init__(self, value, weak_password_list):
-        self.value = value
-        self.weak_password_list = weak_password_list
-
-    def password_found(self, value, weak_password_list): 
-        if value in weak_password_list:
+        #checks if in common password list
+        elif value in common_password_list:
             print(value, '-> Error: Too Common')
-        else: 
-            return
 
 #Read in input files and validate passwords
 if __name__ == '__main__':
-    #input the candidate password newline delimited text file. If none, defaults to STDIN
-    input_passwords = sys.argv[1]
-    common_passwords = sys.argv[2]
 
-    #benchmark runtime
-    start = time.time()
+    # raise error if input criteria not met
+    if (len(sys.argv) > 3):
+	    raise(Exception('Error: too many input files in /run.sh'))
 
-    #read in input files and create password sets
-    input = ReadInput().read_candidate_file(input_passwords)
-    input_common = ReadInput().read_common_file(common_passwords)
-  
-    #Run validation #TODO need to iterate over lengthascii class 
-    for value in input:
-        if  value is not None and value.isascii() == False: # and value.isprintable():TODO consider whether this is necessary.
-            censored_value = re.sub('[^\x00-\x7F]', '*', value) #replaces non-ASCII char with '*' using regex
-            print(censored_value, ' -> Error: Invalid Characters')
-        #returns True if input > min_length
-        elif value is not None and len(value) < 8:
-            print(value, ' -> Error: Too Short. ','Must be more than 8 characters') 
-            
-        #returns true if input < max_length    
-        elif value is not None and len(value) > 64:
-            print(value, ' -> Error: Too Long. ','Must be less than 64 characters')
+    elif (len(sys.argv) == 3):
+        #input the candidate password newline delimited text file if exists
+        input_passwords = sys.argv[1]
+        common_passwords = sys.argv[2]
 
+        #benchmark runtime
+        start = time.time()
+
+        #read in input files and create password sets
+        input = ReadInput().read_candidate_file(input_passwords)
+        input_common = ReadInput().read_common_file(common_passwords)
+
+    elif (len(sys.argv) == 2):
+        #input_passwords = sys.stdin.readline()
+        common_passwords = sys.argv[1]
+        input_common = ReadInput().read_common_file(common_passwords)
+        while True:
+            try:
+                value = input() #input('Enter candidate password: \n')
+                validator = Validate(value, input_common,8,64)
+                validator(value,input_common)
+            except EOFError:
+                sys.exit()
+        
+    else:
+        raise(Exception('Error: no common password list found'))
+
+    validator = Validate(input,input_common,8,64)
+    
     for value in input: 
-       if value in input_common:
-           print(value, '-> Error: Too Common')
-
-    #benchmark runtime
-    end = time.time()
-    print('Time to execute candidate password list validation is: ', end - start,' sec')
-
-
-
-
-       #TODO runtime and optimize. work
-       
-        #weak = WeakPassword().password_found(value, input_common)
+        validator(value, input_common)
