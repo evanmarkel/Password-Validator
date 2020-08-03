@@ -46,7 +46,7 @@ class Validate(object):
 if __name__ == '__main__':
 
     # Benchmark runtime
-    # start = time.time()
+    start = time.time()
 
     # Raise error if input criteria not met
     if (len(sys.argv) > 3):
