@@ -5,9 +5,10 @@ import re
 import time
 
 
-# Read in password text files
 class ReadInput(object):
-
+    """
+    Read in password text file(s)
+    """
     def read_file(self, pw_file):
         password_list = set()
         with open(pw_file, 'r') as file:
